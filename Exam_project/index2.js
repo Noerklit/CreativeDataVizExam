@@ -1,48 +1,57 @@
 var width = 1480;
 var height = 700;
 
-// Append SVG to the canvas
+
 var svg = d3.select("#canvas").append("svg")
-  .attr("width", width)
-  .attr("height", height);
+			.attr("width",width)
+			.attr("height",height)
 
-// Load GeoJSON data
-d3.json("oceans.json").then(function (data) {
-  console.log("Original data", data);
 
-  // Extract the specific feature
-  const feature = {
-    type: "Feature",
-    id: 1, // Adjust this id to target the desired feature
-    properties: { name: `Feature 1` },
-    geometry: {} // Adjust this index to target the desired geometry
-  };
+// // Define a projection (e.g., Mercator) and a path generator
 
-  console.log("Feature:", feature);
 
-  // Define a projection and path generator
-  const projection = d3.geoEquirectangular()
-    .scale(200)                  // Adjust scale
-    .translate([width / 2, height / 2]); // Center the projection
 
-  const path = d3.geoPath()
+// const projection = d3.geoOrthographic()
+//     .scale(300) // Adjust the scale for the globe
+//     .translate([width / 2, height / 2])
+//     .clipAngle(90); // Clip the projection to a circle
+const projection = d3.geoEquirectangular()
+    .scale(200)
+    .translate([width / 2, height / 2]);
+
+const path = d3.geoPath()
     .projection(projection);
 
-  // Bind the data and create one path per feature
-  svg.selectAll("path")
-    .data(feature) // Pass an array with the specific feature
-    .enter().append("path")
-    .attr("d", path)
-    .attr("fill", "blue") // Fill the polygon
-    .attr("fill-opacity", 0.5) // Set opacity
-    .attr("stroke", "black")
-    .attr("stroke-width", 0.9);
 
-  // Debug: Check if the shapes are being rendered correctly
-  svg.selectAll("path").each(function(d) {
-    console.log("path", d);
-  });
+// Define a color scale
+const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-}).catch(function (error) {
-  console.error("Error loading the GeoJSON file:", error);
+
+    // Load GeoJSON data
+d3.json("oceans-topo-simple.json").then(function(data) {
+    console.log(data)
+    var subunits = topojson.feature(data, data.objects.oceans)
+
+    // Bind the data and create one path per feature
+    svg.selectAll("path")
+        .data(subunits.features)
+        .enter().append("path")
+        .attr("class", function(d) { return "subunit " + d.id; })
+        .attr("d", path)
+        .attr("fill", (d, i) => colorScale(i)) // Fill each polygon with a different color
+        .attr("fill-opacity", 0.2) // Set the opacity
+        .attr("stroke", "black")
+        .attr("stroke-width", 0.9)
+        .attr("id", (d, i) => "polygon-" + i) // Assign a unique ID
+        .attr("class", (d, i) => "polygon-class-" + i); // Optionally assign a unique class
+
+    svg.selectAll("path").each(function(d, i) {
+      console.log(d.id, this.id, this.getAttribute('class'));
+    });
+
+  //   // Optionally, add rotation to the globe
+  //   d3.timer(function(elapsed) {
+  //     projection.rotate([elapsed * 0.02, -15]); // Rotate the globe
+  //     svg.selectAll("path").attr("d", path); // Update the paths
+  // });
 });
