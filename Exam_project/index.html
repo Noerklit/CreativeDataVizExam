@@ -1,14 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Exam Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Data Visualization</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: none;
+        }
+        .legend {
+            margin: 0 auto;
+        }
+        .description {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        .slider-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .legend-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-	<div id="canvas"> </div>
-	<input type="range" id="slider" min="1992" max="2024" value="1992" step="1">
-	<span id="slider-value">1992</span> <!-- Span to display the slider value -->
-	<script src="https://d3js.org/d3.v7.min.js"></script>
-	<script src="https://d3js.org/topojson.v1.min.js"></script>
-	<script src = "index2.js"></script>
+    <div class="container">
+        <div id="canvas"></div>
+        <div class="slider-container">
+            <input type="range" id="slider" min="1992" max="2023" step="1" value="1992">
+            <span id="slider-value">1992</span>
+        </div>
+        <div class="description">
+            This project visualizes the changes in the depth of the major oceans of the world.
+        </div>
+        <div class="legend-container" id="legend"></div>
+    </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="index2.js"></script>
 </body>
 </html>
