@@ -19,13 +19,6 @@
         .legend {
             margin: 0 auto;
         }
-        .description {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            color: #333;
-        }
         .slider-container {
             text-align: center;
             margin-bottom: 10px;
@@ -34,22 +27,27 @@
             text-align: center;
             margin-bottom: 30px;
         }
+        .title-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="title-container" id="title-container"></div>
         <div id="canvas"></div>
         <div class="slider-container">
             <input type="range" id="slider" min="1992" max="2023" step="1" value="1992">
             <span id="slider-value">1992</span>
         </div>
-        <div class="description">
-            This project visualizes the changes in the depth of the major oceans of the world.
-        </div>
         <div class="legend-container" id="legend"></div>
+        <div class="source">
+            <p>Source: <a href="https://climatedata.imf.org/datasets/b84a7e25159b4c65ba62d3f82c605855_0/explore" target="_blank">https://climatedata.imf.org/datasets/b84a7e25159b4c65ba62d3f82c605855_0/explore</a></p>
+        </div>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <script src="index2.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
